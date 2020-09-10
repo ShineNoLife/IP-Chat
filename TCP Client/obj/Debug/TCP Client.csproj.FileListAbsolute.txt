@@ -1,0 +1,10 @@
+D:\C# Projects\Socket Programming Project\TCP Client\bin\Debug\TCP Client.exe.config
+D:\C# Projects\Socket Programming Project\TCP Client\bin\Debug\TCP Client.exe
+D:\C# Projects\Socket Programming Project\TCP Client\bin\Debug\TCP Client.pdb
+D:\C# Projects\Socket Programming Project\TCP Client\obj\Debug\TCP Client.csprojAssemblyReference.cache
+D:\C# Projects\Socket Programming Project\TCP Client\obj\Debug\TCP_Client.clientForm.resources
+D:\C# Projects\Socket Programming Project\TCP Client\obj\Debug\TCP_Client.Properties.Resources.resources
+D:\C# Projects\Socket Programming Project\TCP Client\obj\Debug\TCP Client.csproj.GenerateResource.cache
+D:\C# Projects\Socket Programming Project\TCP Client\obj\Debug\TCP Client.csproj.CoreCompileInputs.cache
+D:\C# Projects\Socket Programming Project\TCP Client\obj\Debug\TCP Client.exe
+D:\C# Projects\Socket Programming Project\TCP Client\obj\Debug\TCP Client.pdb
