@@ -14,54 +14,90 @@ namespace TCP_Client
 {
     public partial class clientForm : Form
     {
-        static Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        private static Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         string ip = "127.0.0.1"; //Default ip
+        private const int port = 8000;
         public clientForm()
         {
             InitializeComponent();
         }
 
-        private void connectButton_Click(object sender, EventArgs e)
+        private void ConnectButton_Click(object sender, EventArgs e)
         {
-        attempConnect:
-            IPEndPoint userEndPoint = new IPEndPoint(IPAddress.Parse(ip), 9000);
-            try
-            {
-                clientSocket.Connect(userEndPoint);              
-            }
-            catch(Exception ex)
-            {
-                //Give option to try again at defined ip location
-                DialogResult error = MessageBox.Show(ex.ToString() + "\r\nDo you want to try again ?", "Error", MessageBoxButtons.YesNo);
-                if(error == DialogResult.Yes)
-                {
-                    goto attempConnect;
-                }
-            }
+            ConnectToServer();
         }
 
-        private void ipTextbox_TextChanged(object sender, EventArgs e)
+        private void IpTextbox_TextChanged(object sender, EventArgs e)
         {
             ip = ipTextbox.Text;
         }
 
-        private void sendButton_Click(object sender, EventArgs e)
+        private void SendButton_Click(object sender, EventArgs e)
         {
-            if (clientSocket.Connected)
+            SendRequest();
+            ReceiveResponse();
+        }
+
+        private void ConnectToServer()
+        {
+            int attempts = 0;
+
+            while (!clientSocket.Connected)
             {
                 try
                 {
-                    //Send current text inside client's textbox to the server's textbox
-                    string text = clientTextbox.Text;
-                    byte[] data = Encoding.ASCII.GetBytes(text);
-
-                    clientSocket.Send(data);
+                    attempts++;
+                    infoTextBox.Text += $"Connection attempt: { attempts }";
+                    IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
+                    clientSocket.Connect(serverEndPoint);
                 }
-                catch(Exception ex)
+                catch (SocketException)
                 {
-                    MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK);
+                    infoTextBox.Clear();
                 }
             }
+
+            infoTextBox.Clear();
+            infoTextBox.Text += "Connected";
+        }
+
+        private static void Exit()
+        {
+            SendString("exit"); // Tell the server we are exiting
+            clientSocket.Shutdown(SocketShutdown.Both);
+            clientSocket.Close();
+            Environment.Exit(0);
+        }
+
+        private void SendRequest()
+        {
+            infoTextBox.AppendText(Environment.NewLine);
+            string request = clientTextbox.Text;
+            SendString(request);
+
+            if (request.ToLower() == "exit")
+            {
+                Exit();
+            }
+        }
+
+        private static void SendString(string text)
+        {
+            byte[] buffer = Encoding.ASCII.GetBytes(text);
+            clientSocket.Send(buffer, 0, buffer.Length, SocketFlags.None);
+        }
+
+        private void ReceiveResponse()
+        {
+            var buffer = new byte[2048];
+            int received = clientSocket.Receive(buffer, SocketFlags.None);
+            if (received == 0) return;
+            byte[] data = new byte[received];
+            Array.Copy(buffer, data, received);
+            string text = Encoding.ASCII.GetString(data);
+            infoTextBox.Text += "+> Server: ";
+            infoTextBox.AppendText(Environment.NewLine);
+            infoTextBox.Text += text;
         }
     }
 }

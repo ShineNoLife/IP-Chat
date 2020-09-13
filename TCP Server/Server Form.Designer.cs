@@ -46,7 +46,7 @@
             this.serverTextBox.Multiline = true;
             this.serverTextBox.Name = "serverTextBox";
             this.serverTextBox.ReadOnly = true;
-            this.serverTextBox.Size = new System.Drawing.Size(775, 377);
+            this.serverTextBox.Size = new System.Drawing.Size(633, 377);
             this.serverTextBox.TabIndex = 0;
             // 
             // startButton
@@ -58,7 +58,7 @@
             this.startButton.TabIndex = 1;
             this.startButton.Text = "Start";
             this.startButton.UseVisualStyleBackColor = true;
-            this.startButton.Click += new System.EventHandler(this.startButton_Click);
+            this.startButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
             // stopButton
             // 
@@ -69,7 +69,7 @@
             this.stopButton.TabIndex = 2;
             this.stopButton.Text = "Stop";
             this.stopButton.UseVisualStyleBackColor = true;
-            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            this.stopButton.Click += new System.EventHandler(this.StopButton_Click);
             // 
             // connectedCheckBox
             // 
@@ -89,11 +89,11 @@
             this.infoTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.infoTextBox.Location = new System.Drawing.Point(12, 396);
+            this.infoTextBox.Location = new System.Drawing.Point(652, 12);
             this.infoTextBox.Multiline = true;
             this.infoTextBox.Name = "infoTextBox";
             this.infoTextBox.ReadOnly = true;
-            this.infoTextBox.Size = new System.Drawing.Size(296, 43);
+            this.infoTextBox.Size = new System.Drawing.Size(136, 377);
             this.infoTextBox.TabIndex = 5;
             // 
             // startedCheckBox

@@ -16,63 +16,109 @@ namespace TCP_Server
     public partial class serverForm : Form
     {
         static Socket serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        byte[] buffer = new byte[2048];
+        private static readonly List<Socket> clientSockets = new List<Socket>();
+        static int port = 8000;
+        static int bufferSize = 2048;
+        static byte[] buffer = new byte[bufferSize];
         public serverForm()
         {
             InitializeComponent();
         }
 
-        private void startButton_Click(object sender, EventArgs e)
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            SetupServer();
+        }
+
+        private void StopButton_Click(object sender, EventArgs e)
+        {
+            CloseAllSockets();
+        }
+
+        private void SetupServer()
         {
             if (!startedCheckBox.Checked)
             {
-                try
-                {
-                    //Open the server
-                    serverSocket.Bind(new IPEndPoint(IPAddress.Any, 9000));
-                    serverSocket.Listen(100);
-                    startedCheckBox.Checked = true;
-
-                    Socket clientSocket = serverSocket.Accept(); //Get client
-                    infoTextBox.Text = "Client connected";
-                    connectedCheckBox.Checked = true;
-
-                    //Turn info got from client into string and put in server's textbox
-                    buffer = new byte[clientSocket.SendBufferSize];
-                    int bytesRead = clientSocket.Receive(buffer);
-                    if (bytesRead <= 0)
-                    {
-                        throw new SocketException();
-                    }
-                    byte[] formatted = new byte[bytesRead];
-                    for (int i = 0; i < bytesRead; i++)
-                    {
-                        formatted[i] = buffer[i];
-                    }
-
-                    string strData = Encoding.ASCII.GetString(formatted);
-                    serverTextBox.Text = strData;
-                }
-                catch (Exception ex)
-                {
-                    connectedCheckBox.Checked = false;
-                    infoTextBox.Text = "";
-                    MessageBox.Show(ex.ToString());
-                }
+                infoTextBox.Text += "Setting up server...";
+                serverSocket.Bind(new IPEndPoint(IPAddress.Any, port));
+                serverSocket.Listen(0);
+                serverSocket.BeginAccept(AcceptCallback, null);
+                infoTextBox.AppendText(Environment.NewLine);
+                infoTextBox.Text += "Server setup complete";
+                startedCheckBox.Checked = true;
             }
         }
 
-        private void stopButton_Click(object sender, EventArgs e)
+        private void CloseAllSockets()
         {
-            if (startedCheckBox.Checked)
+            foreach (Socket socket in clientSockets)
             {
-                //Close server application
-                serverSocket.Close();
-                startedCheckBox.Checked = false;
-                connectedCheckBox.Checked = false;
-                this.Close();
+                socket.Shutdown(SocketShutdown.Both);
+                socket.Close();
             }
 
+            serverSocket.Close();
+            this.Close();
+        }
+
+        private void AcceptCallback(IAsyncResult AR)
+        {
+            Socket socket;
+
+            try
+            {
+                socket = serverSocket.EndAccept(AR);
+            }
+            catch (ObjectDisposedException)
+            {
+                return;
+            }
+
+            clientSockets.Add(socket);
+            socket.BeginReceive(buffer, 0, bufferSize, SocketFlags.None, ReceiveCallback, socket);
+            serverSocket.BeginAccept(AcceptCallback, null);
+        }
+
+        private void ReceiveCallback(IAsyncResult AR)
+        {
+            Socket current = (Socket)AR.AsyncState;
+            int received;
+
+            try
+            {
+                received = current.EndReceive(AR);
+            }
+            catch (SocketException)
+            {
+                current.Close();
+                clientSockets.Remove(current);
+                return;
+            }
+
+            byte[] recBuf = new byte[received];
+            Array.Copy(buffer, recBuf, received);
+            string text = Encoding.ASCII.GetString(recBuf);
+
+            if (text.ToLower() == "get time") // Client requested time
+            {
+                byte[] data = Encoding.ASCII.GetBytes(DateTime.Now.ToLongTimeString());
+                current.Send(data);
+            }
+            else if (text.ToLower() == "exit") // Client wants to exit
+            {
+                //Shutdown before closing
+                current.Shutdown(SocketShutdown.Both);
+                current.Close();
+                clientSockets.Remove(current);
+                return;
+            }
+            else
+            {
+                byte[] data = Encoding.ASCII.GetBytes(text);
+                current.Send(data);
+            }
+
+            current.BeginReceive(buffer, 0, bufferSize, SocketFlags.None, ReceiveCallback, current);
         }
 
     }
