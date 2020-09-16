@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -15,10 +13,12 @@ namespace TCP_Server
 {
     public partial class serverForm : Form
     {
+        private static readonly string clientLogFile = @"D:\Coding Tools\Client Logs.txt";
+        private static readonly List<string> clientData = new List<string>();
         static Socket serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private static readonly List<Socket> clientSockets = new List<Socket>();
-        static int port = 8000;
-        static int bufferSize = 2048;
+        static readonly int port = 8000;
+        static readonly int bufferSize = 2048;
         static byte[] buffer = new byte[bufferSize];
         public serverForm()
         {
@@ -117,6 +117,8 @@ namespace TCP_Server
                 byte[] data = Encoding.ASCII.GetBytes(text);
                 current.Send(data);
             }
+            clientData.Add($"+>Client { clientSockets.IndexOf(current) }: " + text);
+            File.WriteAllLines(clientLogFile, clientData);
 
             current.BeginReceive(buffer, 0, bufferSize, SocketFlags.None, ReceiveCallback, current);
         }

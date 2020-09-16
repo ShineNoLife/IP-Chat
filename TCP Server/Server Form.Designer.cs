@@ -31,7 +31,6 @@
             this.serverTextBox = new System.Windows.Forms.TextBox();
             this.startButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
-            this.connectedCheckBox = new System.Windows.Forms.CheckBox();
             this.infoTextBox = new System.Windows.Forms.TextBox();
             this.startedCheckBox = new System.Windows.Forms.CheckBox();
             this.serverRecieveMessage = new System.ComponentModel.BackgroundWorker();
@@ -71,19 +70,6 @@
             this.stopButton.UseVisualStyleBackColor = true;
             this.stopButton.Click += new System.EventHandler(this.StopButton_Click);
             // 
-            // connectedCheckBox
-            // 
-            this.connectedCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.connectedCheckBox.AutoSize = true;
-            this.connectedCheckBox.Location = new System.Drawing.Point(400, 421);
-            this.connectedCheckBox.Name = "connectedCheckBox";
-            this.connectedCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.connectedCheckBox.Size = new System.Drawing.Size(78, 17);
-            this.connectedCheckBox.TabIndex = 3;
-            this.connectedCheckBox.Text = "Connected";
-            this.connectedCheckBox.UseVisualStyleBackColor = true;
-            // 
             // infoTextBox
             // 
             this.infoTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -101,7 +87,7 @@
             this.startedCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.startedCheckBox.AutoSize = true;
-            this.startedCheckBox.Location = new System.Drawing.Point(418, 398);
+            this.startedCheckBox.Location = new System.Drawing.Point(418, 421);
             this.startedCheckBox.Name = "startedCheckBox";
             this.startedCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.startedCheckBox.Size = new System.Drawing.Size(60, 17);
@@ -116,7 +102,6 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.infoTextBox);
             this.Controls.Add(this.startedCheckBox);
-            this.Controls.Add(this.connectedCheckBox);
             this.Controls.Add(this.stopButton);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.serverTextBox);
@@ -130,7 +115,6 @@
         #endregion
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.Button stopButton;
-        private System.Windows.Forms.CheckBox connectedCheckBox;
         private System.Windows.Forms.TextBox infoTextBox;
         private System.Windows.Forms.CheckBox startedCheckBox;
         private System.ComponentModel.BackgroundWorker serverRecieveMessage;
