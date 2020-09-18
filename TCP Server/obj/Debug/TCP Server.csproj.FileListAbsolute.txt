@@ -6,3 +6,4 @@ D:\C# Projects\Socket Programming Project\TCP Server\obj\Debug\TCP Server.csproj
 D:\C# Projects\Socket Programming Project\TCP Server\obj\Debug\TCP Server.csproj.CoreCompileInputs.cache
 D:\C# Projects\Socket Programming Project\TCP Server\obj\Debug\TCP Server.exe
 D:\C# Projects\Socket Programming Project\TCP Server\obj\Debug\TCP Server.pdb
+D:\C# Projects\Socket Programming Project\TCP Server\obj\Debug\TCP Server.csprojAssemblyReference.cache

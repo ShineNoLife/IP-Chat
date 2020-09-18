@@ -1,6 +1,6 @@
 ﻿namespace TCP_Client
 {
-    partial class clientForm
+    partial class ClientForm
     {
         /// <summary>
         /// Required designer variable.

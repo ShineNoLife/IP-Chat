@@ -16,7 +16,7 @@ namespace TCP_Client
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new clientForm());
+            Application.Run(new ClientForm());
         }
     }
 }

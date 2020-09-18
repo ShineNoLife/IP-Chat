@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Net.WebSockets;
 using System.Text;
-using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TCP_Server
@@ -132,7 +134,6 @@ namespace TCP_Server
             }
             else
             {
-                clientData.Add($"+>Client { clientSockets.IndexOf(current) }: " + text);
                 SendAllSockets(clientSockets, $"+>Client { clientSockets.IndexOf(current) }: " + text);
             }          
             File.WriteAllLines(clientLogFile, clientData);

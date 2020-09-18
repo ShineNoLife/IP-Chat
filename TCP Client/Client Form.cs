@@ -12,14 +12,14 @@ using System.Windows.Forms;
 
 namespace TCP_Client
 {
-    public partial class clientForm : Form
+    public partial class ClientForm : Form
     {
         private static Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         string ip = "127.0.0.1"; //Default ip
         private const int port = 8000;
         static readonly int bufferSize = 2048;
         static byte[] buffer = new byte[bufferSize];
-        public clientForm()
+        public ClientForm()
         {
             InitializeComponent();
         }
