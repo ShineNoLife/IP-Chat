@@ -1,6 +1,6 @@
 ﻿namespace TCP_Server
 {
-    partial class serverForm
+    partial class ServerForm
     {
         /// <summary>
         /// Required designer variable.

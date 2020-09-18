@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace TCP_Server
 {
-    public partial class serverForm : Form
+    public partial class ServerForm : Form
     {
         private static readonly string clientLogFile = @"D:\Coding Tools\Client Logs.txt";
         private static readonly List<string> clientData = new List<string>();
@@ -20,7 +20,7 @@ namespace TCP_Server
         static readonly int port = 8000;
         static readonly int bufferSize = 2048;
         static byte[] buffer = new byte[bufferSize];
-        public serverForm()
+        public ServerForm()
         {
             InitializeComponent();
         }
@@ -88,7 +88,7 @@ namespace TCP_Server
             {
                 received = current.EndReceive(AR);
             }
-            catch (SocketException)
+            catch (Exception ex)
             {
                 current.Close();
                 clientSockets.Remove(current);
@@ -118,6 +118,12 @@ namespace TCP_Server
                 current.Send(data);
             }
             clientData.Add($"+>Client { clientSockets.IndexOf(current) }: " + text);
+
+            serverTextBox.Invoke((Action)delegate
+            {
+                serverTextBox.Text += $"+>Client { clientSockets.IndexOf(current) }: " + text;
+                serverTextBox.AppendText(Environment.NewLine);
+            });
             File.WriteAllLines(clientLogFile, clientData);
 
             current.BeginReceive(buffer, 0, bufferSize, SocketFlags.None, ReceiveCallback, current);

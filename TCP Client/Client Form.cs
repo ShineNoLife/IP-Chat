@@ -95,9 +95,8 @@ namespace TCP_Client
             byte[] data = new byte[received];
             Array.Copy(buffer, data, received);
             string text = Encoding.ASCII.GetString(data);
-            infoTextBox.Text += "+> Server: ";
-            infoTextBox.AppendText(Environment.NewLine);
             infoTextBox.Text += text;
+            infoTextBox.AppendText(Environment.NewLine);
         }
     }
 }
