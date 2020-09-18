@@ -114,10 +114,13 @@ namespace TCP_Server
             }
             else
             {
-                byte[] data = Encoding.ASCII.GetBytes(text);
-                current.Send(data);
-            }
-            clientData.Add($"+>Client { clientSockets.IndexOf(current) }: " + text);
+                clientData.Add($"+>Client { clientSockets.IndexOf(current) }: " + text);
+                foreach (Socket client in clientSockets)
+                {
+                    byte[] data = Encoding.ASCII.GetBytes($"+>Client { clientSockets.IndexOf(current) }: " + text);
+                    client.Send(data);
+                }
+            }          
 
             serverTextBox.Invoke((Action)delegate
             {

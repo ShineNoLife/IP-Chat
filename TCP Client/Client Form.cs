@@ -17,6 +17,8 @@ namespace TCP_Client
         private static Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         string ip = "127.0.0.1"; //Default ip
         private const int port = 8000;
+        static readonly int bufferSize = 2048;
+        static byte[] buffer = new byte[bufferSize];
         public clientForm()
         {
             InitializeComponent();
@@ -35,7 +37,6 @@ namespace TCP_Client
         private void SendButton_Click(object sender, EventArgs e)
         {
             SendRequest();
-            ReceiveResponse();
         }
 
         private void ConnectToServer()
@@ -59,6 +60,8 @@ namespace TCP_Client
 
             infoTextBox.Clear();
             infoTextBox.Text += "Connected";
+            infoTextBox.AppendText(Environment.NewLine);
+            clientSocket.BeginReceive(buffer, 0, bufferSize, SocketFlags.None, ReceiveCallBack, clientSocket);
         }
 
         private static void Exit()
@@ -71,7 +74,6 @@ namespace TCP_Client
 
         private void SendRequest()
         {
-            infoTextBox.AppendText(Environment.NewLine);
             string request = clientTextbox.Text;
             SendString(request);
 
@@ -87,16 +89,30 @@ namespace TCP_Client
             clientSocket.Send(buffer, 0, buffer.Length, SocketFlags.None);
         }
 
-        private void ReceiveResponse()
+        private void ReceiveCallBack(IAsyncResult AR)
         {
-            var buffer = new byte[2048];
-            int received = clientSocket.Receive(buffer, SocketFlags.None);
-            if (received == 0) return;
+            Socket client = (Socket)AR.AsyncState;
+            int received = 0;
+            try
+            {
+                received = client.EndReceive(AR);
+            }
+            catch
+            {
+
+            }
+
             byte[] data = new byte[received];
             Array.Copy(buffer, data, received);
             string text = Encoding.ASCII.GetString(data);
-            infoTextBox.Text += text;
-            infoTextBox.AppendText(Environment.NewLine);
+
+            clientTextbox.Invoke((Action)delegate
+            {
+                infoTextBox.Text += text;
+                infoTextBox.AppendText(Environment.NewLine);
+            });
+
+            client.BeginReceive(buffer, 0, bufferSize, SocketFlags.None,  ReceiveCallBack, client);
         }
     }
 }
