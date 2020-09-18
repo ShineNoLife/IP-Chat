@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E12947F9-BEF4-4839-849D-6A52F6033D4B}</ProjectGuid>
+    <ProjectGuid>{B4BC4688-121C-495C-9BA9-9B996540CAC5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>TCP_Server</RootNamespace>
     <AssemblyName>TCP Server</AssemblyName>
@@ -63,9 +63,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Server Form.resx">
-      <DependentUpon>Server Form.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

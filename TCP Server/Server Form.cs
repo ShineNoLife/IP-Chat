@@ -75,6 +75,8 @@ namespace TCP_Server
             }
 
             clientSockets.Add(socket);
+            SendAllSockets(clientSockets, $"***Client { clientSockets.IndexOf(socket) } Joined The Chat***");
+
             socket.BeginReceive(buffer, 0, bufferSize, SocketFlags.None, ReceiveCallback, socket);
             serverSocket.BeginAccept(AcceptCallback, null);
         }
@@ -90,8 +92,23 @@ namespace TCP_Server
             }
             catch (Exception ex)
             {
-                current.Close();
+                serverTextBox.Invoke((Action)delegate
+                {
+                    serverTextBox.Text += $"***Client { clientSockets.IndexOf(current) } Left The Chat***";
+                    serverTextBox.AppendText(Environment.NewLine);
+                });
+
+                foreach (Socket client in clientSockets)
+                {
+                    if (client != current)
+                    {
+                        byte[] data = Encoding.ASCII.GetBytes($"***Client { clientSockets.IndexOf(current) } Left The Chat***");
+                        client.Send(data);
+                    }
+                }
+
                 clientSockets.Remove(current);
+                current.Close();
                 return;
             }
 
@@ -104,8 +121,9 @@ namespace TCP_Server
                 byte[] data = Encoding.ASCII.GetBytes(DateTime.Now.ToLongTimeString());
                 current.Send(data);
             }
-            else if (text.ToLower() == "exit") // Client wants to exit
+            else if (text.ToLower() == "/exit") // Client wants to exit
             {
+                SendAllSockets(clientSockets, $"***Client { clientSockets.IndexOf(current) } Left The Chat***");
                 //Shutdown before closing
                 current.Shutdown(SocketShutdown.Both);
                 current.Close();
@@ -115,22 +133,28 @@ namespace TCP_Server
             else
             {
                 clientData.Add($"+>Client { clientSockets.IndexOf(current) }: " + text);
-                foreach (Socket client in clientSockets)
-                {
-                    byte[] data = Encoding.ASCII.GetBytes($"+>Client { clientSockets.IndexOf(current) }: " + text);
-                    client.Send(data);
-                }
+                SendAllSockets(clientSockets, $"+>Client { clientSockets.IndexOf(current) }: " + text);
             }          
-
-            serverTextBox.Invoke((Action)delegate
-            {
-                serverTextBox.Text += $"+>Client { clientSockets.IndexOf(current) }: " + text;
-                serverTextBox.AppendText(Environment.NewLine);
-            });
             File.WriteAllLines(clientLogFile, clientData);
 
             current.BeginReceive(buffer, 0, bufferSize, SocketFlags.None, ReceiveCallback, current);
         }
 
+        private void SendAllSockets(List<Socket> clientSockets, string text)
+        {
+            clientData.Add(text);
+            File.WriteAllLines(clientLogFile, clientData);
+            serverTextBox.Invoke((Action)delegate
+            {
+                serverTextBox.Text += text;
+                serverTextBox.AppendText(Environment.NewLine);
+            });
+
+            foreach (Socket client in clientSockets)
+            {
+                byte[] data = Encoding.ASCII.GetBytes(text);
+                client.Send(data);
+            }
+        }
     }
 }

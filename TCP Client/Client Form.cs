@@ -39,6 +39,16 @@ namespace TCP_Client
             SendRequest();
         }
 
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            byte[] data = Encoding.ASCII.GetBytes("/Exit");
+            clientSocket.Send(data);
+
+            clientSocket.Shutdown(SocketShutdown.Both);
+            clientSocket.Close();
+            this.Close();
+        }
+
         private void ConnectToServer()
         {
             int attempts = 0;
@@ -114,5 +124,6 @@ namespace TCP_Client
 
             client.BeginReceive(buffer, 0, bufferSize, SocketFlags.None,  ReceiveCallBack, client);
         }
+
     }
 }

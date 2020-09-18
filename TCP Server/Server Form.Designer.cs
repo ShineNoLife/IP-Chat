@@ -41,11 +41,11 @@
             this.serverTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.serverTextBox.Location = new System.Drawing.Point(13, 12);
+            this.serverTextBox.Location = new System.Drawing.Point(12, 12);
             this.serverTextBox.Multiline = true;
             this.serverTextBox.Name = "serverTextBox";
             this.serverTextBox.ReadOnly = true;
-            this.serverTextBox.Size = new System.Drawing.Size(633, 377);
+            this.serverTextBox.Size = new System.Drawing.Size(634, 377);
             this.serverTextBox.TabIndex = 0;
             // 
             // startButton
@@ -72,8 +72,7 @@
             // 
             // infoTextBox
             // 
-            this.infoTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.infoTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.infoTextBox.Location = new System.Drawing.Point(652, 12);
             this.infoTextBox.Multiline = true;
@@ -84,8 +83,7 @@
             // 
             // startedCheckBox
             // 
-            this.startedCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.startedCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.startedCheckBox.AutoSize = true;
             this.startedCheckBox.Location = new System.Drawing.Point(418, 421);
             this.startedCheckBox.Name = "startedCheckBox";
@@ -95,7 +93,7 @@
             this.startedCheckBox.Text = "Started";
             this.startedCheckBox.UseVisualStyleBackColor = true;
             // 
-            // serverForm
+            // ServerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -105,7 +103,7 @@
             this.Controls.Add(this.stopButton);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.serverTextBox);
-            this.Name = "serverForm";
+            this.Name = "ServerForm";
             this.Text = "Server";
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6E103B1D-27F9-48B0-A78C-191DE2E022E5}</ProjectGuid>
+    <ProjectGuid>{30CFF0AD-D647-4714-8F2E-585235A729A0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>TCP_Client</RootNamespace>
-    <AssemblyName>TCP Client</AssemblyName>
+    <AssemblyName>TCP_Client</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -54,9 +54,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Client Form.resx">
-      <DependentUpon>Client Form.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

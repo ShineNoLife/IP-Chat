@@ -1,9 +1,7 @@
 D:\C# Projects\Socket Programming Project\TCP Server\bin\Debug\TCP Server.exe.config
 D:\C# Projects\Socket Programming Project\TCP Server\bin\Debug\TCP Server.exe
 D:\C# Projects\Socket Programming Project\TCP Server\bin\Debug\TCP Server.pdb
-D:\C# Projects\Socket Programming Project\TCP Server\obj\Debug\TCP Server.csprojAssemblyReference.cache
 D:\C# Projects\Socket Programming Project\TCP Server\obj\Debug\TCP_Server.Properties.Resources.resources
-D:\C# Projects\Socket Programming Project\TCP Server\obj\Debug\TCP_Server.serverForm.resources
 D:\C# Projects\Socket Programming Project\TCP Server\obj\Debug\TCP Server.csproj.GenerateResource.cache
 D:\C# Projects\Socket Programming Project\TCP Server\obj\Debug\TCP Server.csproj.CoreCompileInputs.cache
 D:\C# Projects\Socket Programming Project\TCP Server\obj\Debug\TCP Server.exe
