@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -55,6 +56,7 @@ namespace TCP_Client
 
             while (!clientSocket.Connected)
             {
+            attemptConnect:
                 try
                 {
                     attempts++;
@@ -62,9 +64,14 @@ namespace TCP_Client
                     IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
                     clientSocket.Connect(serverEndPoint);
                 }
-                catch (SocketException)
+                catch (SocketException ex)
                 {
                     infoTextBox.Clear();
+                    DialogResult answer = MessageBox.Show(ex.ToString() + "Do you want to try again ?", "Error", MessageBoxButtons.YesNo);
+                    if (answer == DialogResult.Yes)
+                        goto attemptConnect;
+                    else
+                        return;
                 }
             }
 

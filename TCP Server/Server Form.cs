@@ -46,7 +46,7 @@ namespace TCP_Server
                 serverSocket.Listen(0);
                 serverSocket.BeginAccept(AcceptCallback, null);
                 infoTextBox.AppendText(Environment.NewLine);
-                infoTextBox.Text += "Server setup complete";
+                infoTextBox.Text += $"Server setup complete.";
                 startedCheckBox.Checked = true;
             }
         }
