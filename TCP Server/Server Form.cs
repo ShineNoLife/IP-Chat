@@ -19,7 +19,7 @@ namespace TCP_Server
         private static readonly List<string> clientData = new List<string>();
         static Socket serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private static readonly List<Socket> clientSockets = new List<Socket>();
-        static readonly int port = 8000;
+        static int port = 8000;
         static readonly int bufferSize = 2048;
         static byte[] buffer = new byte[bufferSize];
         public ServerForm()
@@ -46,7 +46,9 @@ namespace TCP_Server
                 serverSocket.Listen(0);
                 serverSocket.BeginAccept(AcceptCallback, null);
                 infoTextBox.AppendText(Environment.NewLine);
-                infoTextBox.Text += $"Server setup complete.";
+                infoTextBox.Text += $"Server setup complete at port: ";
+                portTextBox.Text = port.ToString();
+                portTextBox.ReadOnly = true;
                 startedCheckBox.Checked = true;
             }
         }
@@ -157,5 +159,14 @@ namespace TCP_Server
                 client.Send(data);
             }
         }
+
+        private void portTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(portTextBox.Text) != 0)
+                port = Convert.ToInt32(portTextBox.Text);
+            else
+                port = 8000;
+        }
+
     }
 }

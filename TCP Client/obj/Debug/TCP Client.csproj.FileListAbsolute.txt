@@ -7,3 +7,4 @@ D:\C# Projects\Socket Programming Project\TCP Client\bin\Debug\TCP_Client.exe
 D:\C# Projects\Socket Programming Project\TCP Client\bin\Debug\TCP_Client.pdb
 D:\C# Projects\Socket Programming Project\TCP Client\obj\Debug\TCP_Client.exe
 D:\C# Projects\Socket Programming Project\TCP Client\obj\Debug\TCP_Client.pdb
+D:\C# Projects\Socket Programming Project\TCP Client\obj\Debug\TCP_Client.ClientForm.resources

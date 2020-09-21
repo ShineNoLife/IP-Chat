@@ -34,6 +34,8 @@
             this.infoTextBox = new System.Windows.Forms.TextBox();
             this.startedCheckBox = new System.Windows.Forms.CheckBox();
             this.serverRecieveMessage = new System.ComponentModel.BackgroundWorker();
+            this.portTextBox = new System.Windows.Forms.TextBox();
+            this.portLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // serverTextBox
@@ -78,7 +80,7 @@
             this.infoTextBox.Multiline = true;
             this.infoTextBox.Name = "infoTextBox";
             this.infoTextBox.ReadOnly = true;
-            this.infoTextBox.Size = new System.Drawing.Size(136, 377);
+            this.infoTextBox.Size = new System.Drawing.Size(136, 352);
             this.infoTextBox.TabIndex = 5;
             // 
             // startedCheckBox
@@ -93,11 +95,31 @@
             this.startedCheckBox.Text = "Started";
             this.startedCheckBox.UseVisualStyleBackColor = true;
             // 
+            // portTextBox
+            // 
+            this.portTextBox.Location = new System.Drawing.Point(703, 369);
+            this.portTextBox.Name = "portTextBox";
+            this.portTextBox.Size = new System.Drawing.Size(84, 20);
+            this.portTextBox.TabIndex = 6;
+            this.portTextBox.TextChanged += new System.EventHandler(this.portTextBox_TextChanged);
+            // 
+            // portLabel
+            // 
+            this.portLabel.AutoSize = true;
+            this.portLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.portLabel.Location = new System.Drawing.Point(655, 369);
+            this.portLabel.Name = "portLabel";
+            this.portLabel.Size = new System.Drawing.Size(42, 20);
+            this.portLabel.TabIndex = 7;
+            this.portLabel.Text = "Port:";
+            // 
             // ServerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.portLabel);
+            this.Controls.Add(this.portTextBox);
             this.Controls.Add(this.infoTextBox);
             this.Controls.Add(this.startedCheckBox);
             this.Controls.Add(this.stopButton);
@@ -117,6 +139,8 @@
         private System.Windows.Forms.CheckBox startedCheckBox;
         private System.ComponentModel.BackgroundWorker serverRecieveMessage;
         public System.Windows.Forms.TextBox serverTextBox;
+        private System.Windows.Forms.TextBox portTextBox;
+        private System.Windows.Forms.Label portLabel;
     }
 }
 

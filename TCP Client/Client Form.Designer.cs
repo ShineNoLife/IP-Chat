@@ -35,6 +35,8 @@
             this.sendButton = new System.Windows.Forms.Button();
             this.infoTextBox = new System.Windows.Forms.TextBox();
             this.exitButton = new System.Windows.Forms.Button();
+            this.portLabel = new System.Windows.Forms.Label();
+            this.portTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // connectButton
@@ -51,7 +53,7 @@
             // ipTextbox
             // 
             this.ipTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ipTextbox.Location = new System.Drawing.Point(52, 422);
+            this.ipTextbox.Location = new System.Drawing.Point(62, 422);
             this.ipTextbox.Name = "ipTextbox";
             this.ipTextbox.Size = new System.Drawing.Size(248, 20);
             this.ipTextbox.TabIndex = 1;
@@ -62,7 +64,7 @@
             this.ipLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ipLabel.AutoSize = true;
             this.ipLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ipLabel.Location = new System.Drawing.Point(12, 417);
+            this.ipLabel.Location = new System.Drawing.Point(13, 417);
             this.ipLabel.Name = "ipLabel";
             this.ipLabel.Size = new System.Drawing.Size(43, 25);
             this.ipLabel.TabIndex = 2;
@@ -116,11 +118,31 @@
             this.exitButton.UseVisualStyleBackColor = true;
             this.exitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
-            // clientForm
+            // portLabel
+            // 
+            this.portLabel.AutoSize = true;
+            this.portLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.portLabel.Location = new System.Drawing.Point(656, 377);
+            this.portLabel.Name = "portLabel";
+            this.portLabel.Size = new System.Drawing.Size(42, 20);
+            this.portLabel.TabIndex = 9;
+            this.portLabel.Text = "Port:";
+            // 
+            // portTextBox
+            // 
+            this.portTextBox.Location = new System.Drawing.Point(704, 377);
+            this.portTextBox.Name = "portTextBox";
+            this.portTextBox.Size = new System.Drawing.Size(84, 20);
+            this.portTextBox.TabIndex = 8;
+            this.portTextBox.TextChanged += new System.EventHandler(this.portTextBox_TextChanged);
+            // 
+            // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 461);
+            this.Controls.Add(this.portLabel);
+            this.Controls.Add(this.portTextBox);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.infoTextBox);
             this.Controls.Add(this.sendButton);
@@ -128,7 +150,7 @@
             this.Controls.Add(this.ipLabel);
             this.Controls.Add(this.ipTextbox);
             this.Controls.Add(this.connectButton);
-            this.Name = "clientForm";
+            this.Name = "ClientForm";
             this.Text = "Client";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -144,6 +166,8 @@
         private System.Windows.Forms.Button sendButton;
         private System.Windows.Forms.TextBox infoTextBox;
         private System.Windows.Forms.Button exitButton;
+        private System.Windows.Forms.Label portLabel;
+        private System.Windows.Forms.TextBox portTextBox;
     }
 }
 

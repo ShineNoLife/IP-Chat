@@ -17,7 +17,7 @@ namespace TCP_Client
     {
         private static Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         string ip = "127.0.0.1"; //Default ip
-        private const int port = 8000;
+        private int port = 8000;
         static readonly int bufferSize = 2048;
         static byte[] buffer = new byte[bufferSize];
         public ClientForm()
@@ -42,12 +42,13 @@ namespace TCP_Client
 
         private void ExitButton_Click(object sender, EventArgs e)
         {
-            byte[] data = Encoding.ASCII.GetBytes("/Exit");
-            clientSocket.Send(data);
-
-            clientSocket.Shutdown(SocketShutdown.Both);
-            clientSocket.Close();
-            this.Close();
+            if (clientSocket.Connected)
+                Exit();
+            else
+            {
+                clientSocket.Close();
+                Environment.Exit(0);
+            }
         }
 
         private void ConnectToServer()
@@ -76,14 +77,18 @@ namespace TCP_Client
             }
 
             infoTextBox.Clear();
+            portTextBox.ReadOnly = true;
+            ipTextbox.ReadOnly = true;
             infoTextBox.Text += "Connected";
             infoTextBox.AppendText(Environment.NewLine);
+            portTextBox.Text = port.ToString();
+            ipTextbox.Text = ip.ToString();
             clientSocket.BeginReceive(buffer, 0, bufferSize, SocketFlags.None, ReceiveCallBack, clientSocket);
         }
 
         private static void Exit()
         {
-            SendString("exit"); // Tell the server we are exiting
+            SendString("/exit"); // Tell the server we are exiting
             clientSocket.Shutdown(SocketShutdown.Both);
             clientSocket.Close();
             Environment.Exit(0);
@@ -94,7 +99,7 @@ namespace TCP_Client
             string request = clientTextbox.Text;
             SendString(request);
 
-            if (request.ToLower() == "exit")
+            if (request.ToLower() == "/exit")
             {
                 Exit();
             }
@@ -132,5 +137,12 @@ namespace TCP_Client
             client.BeginReceive(buffer, 0, bufferSize, SocketFlags.None,  ReceiveCallBack, client);
         }
 
+        private void portTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(portTextBox.Text) != 0)
+                port = Convert.ToInt32(portTextBox.Text);
+            else
+                port = 8000;
+        }
     }
 }
