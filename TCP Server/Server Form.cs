@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TCP_Server
@@ -19,6 +14,7 @@ namespace TCP_Server
         private static readonly List<string> clientData = new List<string>();
         static Socket serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private static readonly List<Socket> clientSockets = new List<Socket>();
+        private static List<string> clientNames = new List<string>();
         static int port = 8000;
         static readonly int bufferSize = 2048;
         static byte[] buffer = new byte[bufferSize];
@@ -46,7 +42,7 @@ namespace TCP_Server
                 serverSocket.Listen(0);
                 serverSocket.BeginAccept(AcceptCallback, null);
                 infoTextBox.AppendText(Environment.NewLine);
-                infoTextBox.Text += $"Server setup complete at port: ";
+                infoTextBox.Text += $"Server setup complete.";
                 portTextBox.Text = port.ToString();
                 portTextBox.ReadOnly = true;
                 startedCheckBox.Checked = true;
@@ -79,7 +75,8 @@ namespace TCP_Server
             }
 
             clientSockets.Add(socket);
-            SendAllSockets(clientSockets, $"***Client { clientSockets.IndexOf(socket) } Joined The Chat***");
+            clientNames.Add($"Client { clientSockets.IndexOf(socket) }");
+            SendAllSockets(clientSockets, $"{ DateTime.Now.ToString("HH:mm").ToLower() }: ***{ clientNames[clientSockets.IndexOf(socket)] } Joined The Chat***");
 
             socket.BeginReceive(buffer, 0, bufferSize, SocketFlags.None, ReceiveCallback, socket);
             serverSocket.BeginAccept(AcceptCallback, null);
@@ -98,7 +95,7 @@ namespace TCP_Server
             {
                 serverTextBox.Invoke((Action)delegate
                 {
-                    serverTextBox.Text += $"***Client { clientSockets.IndexOf(current) } Left The Chat***";
+                    serverTextBox.Text += $"{ DateTime.Now.ToString("HH:mm").ToLower() }: ***{ clientNames[clientSockets.IndexOf(current)] } Left The Chat***";
                     serverTextBox.AppendText(Environment.NewLine);
                 });
 
@@ -106,12 +103,12 @@ namespace TCP_Server
                 {
                     if (client != current)
                     {
-                        byte[] data = Encoding.ASCII.GetBytes($"***Client { clientSockets.IndexOf(current) } Left The Chat***");
+                        byte[] data = Encoding.ASCII.GetBytes($"{ DateTime.Now.ToString("HH:mm").ToLower() }: ***{ clientNames[clientSockets.IndexOf(current)] } Left The Chat***");
                         client.Send(data);
                     }
                 }
 
-                clientSockets.Remove(current);
+                clientSockets[clientSockets.IndexOf(current)] = null;
                 current.Close();
                 return;
             }
@@ -120,23 +117,31 @@ namespace TCP_Server
             Array.Copy(buffer, recBuf, received);
             string text = Encoding.ASCII.GetString(recBuf);
 
-            if (text.ToLower() == "get time") // Client requested time
+            if (text.ToLower() == "/gettime") // Client requested time
             {
                 byte[] data = Encoding.ASCII.GetBytes(DateTime.Now.ToLongTimeString());
                 current.Send(data);
             }
+            else if (text.Length > 6 && text.Substring(0, 5).ToLower() == "/name")
+            {
+                if (text.Substring(6) != "")
+                {
+                    SendAllSockets(clientSockets, $"{ clientNames[clientSockets.IndexOf(current)] } Changed name to { text.Substring(6) }");
+                    clientNames[clientSockets.IndexOf(current)] = text.Substring(6);
+                }
+            }
             else if (text.ToLower() == "/exit") // Client wants to exit
             {
-                SendAllSockets(clientSockets, $"***Client { clientSockets.IndexOf(current) } Left The Chat***");
+                SendAllSockets(clientSockets, $"{ DateTime.Now.ToString("HH:mm").ToLower() }: ***{ clientNames[clientSockets.IndexOf(current)] } Left The Chat***");
                 //Shutdown before closing
                 current.Shutdown(SocketShutdown.Both);
                 current.Close();
-                clientSockets.Remove(current);
+                clientSockets[clientSockets.IndexOf(current)] = null;
                 return;
             }
             else
             {
-                SendAllSockets(clientSockets, $"+>Client { clientSockets.IndexOf(current) }: " + text);
+                SendAllSockets(clientSockets, $"{ DateTime.Now.ToString("HH:mm").ToLower() }: +>{ clientNames[clientSockets.IndexOf(current)] }: " + text);
             }          
             File.WriteAllLines(clientLogFile, clientData);
 
@@ -156,7 +161,8 @@ namespace TCP_Server
             foreach (Socket client in clientSockets)
             {
                 byte[] data = Encoding.ASCII.GetBytes(text);
-                client.Send(data);
+                if(client != null)
+                    client.Send(data);
             }
         }
 

@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TCP_Client
@@ -38,6 +32,7 @@ namespace TCP_Client
         private void SendButton_Click(object sender, EventArgs e)
         {
             SendRequest();
+            clientTextbox.Clear();
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
@@ -57,7 +52,7 @@ namespace TCP_Client
 
             while (!clientSocket.Connected)
             {
-            attemptConnect:
+                attemptConnect:
                 try
                 {
                     attempts++;
@@ -67,7 +62,6 @@ namespace TCP_Client
                 }
                 catch (SocketException ex)
                 {
-                    infoTextBox.Clear();
                     DialogResult answer = MessageBox.Show(ex.ToString() + "Do you want to try again ?", "Error", MessageBoxButtons.YesNo);
                     if (answer == DialogResult.Yes)
                         goto attemptConnect;
@@ -107,8 +101,15 @@ namespace TCP_Client
 
         private static void SendString(string text)
         {
-            byte[] buffer = Encoding.ASCII.GetBytes(text);
-            clientSocket.Send(buffer, 0, buffer.Length, SocketFlags.None);
+            try
+            {
+                byte[] buffer = Encoding.ASCII.GetBytes(text);
+                clientSocket.Send(buffer, 0, buffer.Length, SocketFlags.None);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error occured while attempting to send message", MessageBoxButtons.OK);
+            }
         }
 
         private void ReceiveCallBack(IAsyncResult AR)
@@ -121,7 +122,7 @@ namespace TCP_Client
             }
             catch
             {
-
+                return;
             }
 
             byte[] data = new byte[received];
@@ -134,7 +135,8 @@ namespace TCP_Client
                 infoTextBox.AppendText(Environment.NewLine);
             });
 
-            client.BeginReceive(buffer, 0, bufferSize, SocketFlags.None,  ReceiveCallBack, client);
+            if(client.Connected)
+                client.BeginReceive(buffer, 0, bufferSize, SocketFlags.None,  ReceiveCallBack, client);
         }
 
         private void portTextBox_TextChanged(object sender, EventArgs e)
