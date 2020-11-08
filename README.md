@@ -1,2 +1,2 @@
 # Server-Client
-Server and client windows form application written in C# using sockets
+Server and client windows form application using sockets
